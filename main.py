@@ -13,15 +13,15 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-    "https://searchengineapp-production.up.railway.app"
-]
+# origins = [
+#     "http://localhost",
+#     "http://localhost:3000",
+#     "https://searchengineapp-production.up.railway.app"
+# ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
