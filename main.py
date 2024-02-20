@@ -16,6 +16,7 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:3000",
+    "https://searchengineapp-production.up.railway.app"
 ]
 
 app.add_middleware(
