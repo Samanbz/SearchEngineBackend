@@ -57,6 +57,7 @@ def fetch_results(search_query: str, language: str) -> list[dict]:
     }
 
     response = requests.get(url, params=params)
+    print(response.status_code)
     results = np.array(response.json()['articles'])
 
     return results
