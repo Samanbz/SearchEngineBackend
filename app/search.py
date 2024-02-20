@@ -53,7 +53,7 @@ def fetch_results(search_query: str, language: str) -> list[dict]:
         'from': datetime.now().date() - timedelta(weeks=4),
         'to': datetime.now().date(),
         'language': language,
-        'pageSize': 15,
+        'pageSize': 5,
     }
 
     response = requests.get(url, params=params)
