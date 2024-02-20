@@ -13,14 +13,11 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-origins = [
-    "https://searchengineapp-production.up.railway.app/"
-    "https://searchengineapp-production.up.railway.app"
-]
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[origins],
+    allow_origins=["https://searchengineapp-production.up.railway.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
