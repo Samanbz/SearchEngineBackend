@@ -14,8 +14,7 @@ from pydantic import BaseModel
 app = FastAPI()
 
 origins = [
-    "http://localhost",
-    "http://localhost:3000",
+    "https://searchengineapp-production.up.railway.app/"
     "https://searchengineapp-production.up.railway.app"
 ]
 
