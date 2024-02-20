@@ -1,7 +1,57 @@
-from fastapi import FastAPI
+from app.search import search
+from app.analysis import analyze_articles
+from app.summary import generate_summary
+from app.schemas import *
+
+from typing import Annotated
+from fastapi import FastAPI, Query
+from fastapi.middleware.cors import CORSMiddleware
+
+import json
+
+from pydantic import BaseModel
 
 app = FastAPI()
 
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 @app.get("/")
-async def root():
-    return {"greeting": "Hello, World!", "message": "Welcome to FastAPI!"}
+def root():
+    return {"message": "Hello World"}
+
+
+# For sending search results given query parameters query and language.
+@app.get("/search", response_model=SearchResponse)
+def get_search_results(query: Annotated[str, Query()], language: Annotated[str, Query()] = "en"):
+    search_results = search(query, language)
+    response = SearchResponse(results=search_results)
+    return response
+
+
+# For sending analysis of results given urls and query parameter language
+@app.post("/analysis", response_model=AnalysisResponse)
+def get_analysis(request: AnalysisRequest, language: Annotated[str, Query()] = "en"):
+    named_entities = analyze_articles(request.urls, language)
+    response = AnalysisResponse(named_entities=named_entities)
+    print(response)
+    return response
+
+
+# For sending summary of given headlines and query parameter language
+@app.post("/summary", response_model=SummaryResponse)
+def get_summary(request: SummaryRequest, language: Annotated[str, Query()] = "en"):
+    summary = generate_summary(request.headlines, request.topic, language)
+    response = SummaryResponse(summary=summary)
+    return response
