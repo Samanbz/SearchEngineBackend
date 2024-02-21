@@ -60,8 +60,7 @@ def fetch_results(search_query: str, language: str) -> list[dict]:
 
     response = requests.get(url, params=params)
     if (response.status_code != 200):
-        print(response)
-        print("Something went wrong here")
+        print(response.status_code, response.text)
         raise HTTPException(response.status_code, response.text.message)
 
     results = np.array(response.json()['articles'])
