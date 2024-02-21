@@ -4,7 +4,7 @@ from app.summary import generate_summary
 from app.schemas import *
 
 from typing import Annotated
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
 import json
@@ -16,7 +16,8 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://searchengineapp-production.up.railway.app"],
+    allow_origins=["https://searchengineapp-production.up.railway.app",
+                   "http://localhost", "http://localhost:3000", "http://localhost:3001"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -31,7 +32,7 @@ def root():
 # For sending search results given query parameters query and language.
 @app.get("/search", response_model=SearchResponse)
 def get_search_results(query: Annotated[str, Query()], language: Annotated[str, Query()] = "en"):
-    search_results = [rslt.url for rslt in search(query, language)]
+    search_results = search(query, language)
     response = SearchResponse(results=search_results)
     return response
 
@@ -41,7 +42,6 @@ def get_search_results(query: Annotated[str, Query()], language: Annotated[str, 
 def get_analysis(request: AnalysisRequest, language: Annotated[str, Query()] = "en"):
     named_entities = analyze_articles(request.urls, language)
     response = AnalysisResponse(named_entities=named_entities)
-    print(response)
     return response
 
 

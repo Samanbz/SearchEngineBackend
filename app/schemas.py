@@ -19,7 +19,7 @@ class SearchResult(BaseModel):
 
 # Schema for search response
 class SearchResponse(BaseModel):
-    results: list[str]
+    results: list[SearchResult]
 
 
 # Schema for an Analysis request
