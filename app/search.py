@@ -66,7 +66,10 @@ def fetch_results(search_query: str, language: str) -> list[dict]:
 
     results = np.array(response.json()['articles'])
     resultsDf = pd.json_normalize(results)
+    print("exporting results as CSV file")
     resultsDf.to_csv('search_results.csv')
+    print("export finished.")
+
     return results
 
 
