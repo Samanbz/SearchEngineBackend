@@ -7,6 +7,8 @@ import os
 import requests
 import time
 import numpy as np
+import pandas as pd
+from fastapi import HTTPException
 
 load_dotenv()
 
@@ -57,9 +59,14 @@ def fetch_results(search_query: str, language: str) -> list[dict]:
     }
 
     response = requests.get(url, params=params)
-    print(response.status_code)
-    results = np.array(response.json()['articles'])
+    if (response.status_code != 200):
+        print("Exception while fetching search results: " +
+              response.status_code + " " + response.text.message)
+        raise HTTPException(response.status_code, response.text.message)
 
+    results = np.array(response.json()['articles'])
+    resultsDf = pd.json_normalize(results)
+    resultsDf.to_csv('search_results.csv')
     return results
 
 

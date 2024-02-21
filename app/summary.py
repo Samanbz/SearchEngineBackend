@@ -2,8 +2,9 @@ import requests
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
-
+from fastapi import HTTPException
 load_dotenv()
+
 
 client = OpenAI(api_key=os.environ.get('OPENAI_API_KEY'))
 
@@ -13,10 +14,14 @@ initail_prompt = f"You are an assistant at a new company, and your boss has aske
 
 # Generates a summary of a list of headlines given the related topic and langugae)
 def generate_summary(headlines: list[str], topic: str, language: str = "ens") -> str:
-    summary = client.chat.completions.create(
-        model=model,
-        messages=[
-            {"role": "user", "content": initail_prompt + " ".join(headlines) + f"\n concerning the topic {topic}, your response should be in {language}"},],
-    )
-
+    try:
+        summary = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "user", "content": initail_prompt + " ".join(headlines) + f"\n concerning the topic {topic}, your response should be in {language}"},],
+        )
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=500, detail="Failed to generate summary")
     return summary.choices[0].message.content
