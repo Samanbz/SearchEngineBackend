@@ -16,14 +16,13 @@ initail_prompt = f"You are an assistant at a new company, and your boss has aske
 def generate_summary(headlines: list[str], topic: str, language: str) -> str:
     try:
         beginning = "Ok so basically, " if language == "en" else "Also kurzgesagt, "
-        # summary = client.chat.completions.create(
-        #     model=model,
-        #     messages=[
-        #         {"role": "user", "content": initail_prompt + " ".join(headlines) + f"\n concerning the topic {topic}, make sure to answer in {"english" if language == "en" else "german"}"},],
-        # )
+        summary = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "user", "content": initail_prompt + " ".join(headlines) + f"\n concerning the topic {topic}, make sure to answer in {"english" if language == "en" else "german"}"},],
+        )
     except Exception as e:
         print(e)
         raise HTTPException(
             status_code=e.status_ode, detail="Failed to generate summary")
-    # return beginning + summary.choices[0].message.content
-    return "summary aso;dfasp'dj a'spdoj a'spldjg a'sjdga' jld"
+    return beginning + summary.choices[0].message.content
