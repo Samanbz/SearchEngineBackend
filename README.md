@@ -27,7 +27,6 @@ tags:
 
 # How it can be improved
 - Both the NEWS API and the OpenAI API allow for only a limited amount of requests made per account (Yes, I'm using the free tier). This is why I would suggest not making a lot of requests per day (NEWS API allows for 100 requests per day, OpenAI allows only some per account regardless of time).
-- All functions of the server are made to work with English and German search queries (this must always be specified as a query parameter as "en" or "de"), but the client has not yet been adapted to accomodate this feature.
 - It would be a good idea to add unit tests, It would have saved a lot of headaches during production.
 - I did not add a rate limiter to the API endpoints, only added a feature to disable the seach input on the client while requests where still being processed on the server. Rate limiters would also be a useful addition.
 - Most of the error handling is done on the client, so some rigid error handling on this app might not be a terrible idea either.  
