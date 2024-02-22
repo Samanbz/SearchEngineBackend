@@ -68,15 +68,15 @@ def process_named_entities(named_entities: list[spacy.tokens.Span], language: st
         [(ent.text, ent.label_) for ent in named_entities])
     #
     named_entity_frequencies = labeled_named_entities.value_counts().to_dict()
-    print(named_entity_frequencies)
 
     # Filters out all named entities that are common words
     filtered_named_entities = {
         k: v for k, v in named_entity_frequencies.items() if k[0] not in common_words[language]}
 
     # Filters out all named entities that showed up less than 5 times (no particular reason for the choice of the value of this condition, could be any number)
+    filter_min = 7 if language == "en" else 2
     relevant_named_entities = {k: v for k,
-                               v in filtered_named_entities.items() if v > 2}
+                               v in filtered_named_entities.items() if v > filter_min}
 
     # Parses the named entity dictionary into a list of NamedEntity objects
     object_named_entities = np.array([
