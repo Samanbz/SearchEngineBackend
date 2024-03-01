@@ -17,7 +17,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://searchengineapp-production.up.railway.app",
-                   "http://localhost", "http://localhost:3000", "http://localhost:3001"],
+                   "http://localhost", "http://localhost:3000", "http://localhost:3001","http://152.53.3.62:5000","http://152.53.3.62"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
