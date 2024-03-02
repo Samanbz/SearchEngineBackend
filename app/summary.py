@@ -25,5 +25,5 @@ def generate_summary(headlines: list[str], topic: str, language: str) -> str:
     except Exception as e:
         print(e)
         raise HTTPException(
-            status_code=e.status_ode, detail="Failed to generate summary")
+            status_code=e.status_code, detail="Failed to generate summary")
     return beginning + summary.choices[0].message.content
